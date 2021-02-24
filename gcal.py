@@ -124,6 +124,3 @@ def create_gcal_event(gcal_name, event_name, event_times):
     gcal_gym_event = gcal_service.events().insert(calendarId=gcal_id, body=event, sendNotifications=True).execute()
     print('Event called ' + event_name + ' from ' + event_times[0] + ' to ' + event_times[1] + ' created: %s'
           % (gcal_gym_event.get('htmlLink')))
-
-
-print(pick_calendar('Reffing'))

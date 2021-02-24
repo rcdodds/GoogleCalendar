@@ -42,6 +42,7 @@ def pick_calendar(name):
 
     # Choose calendar ID from calendar name
     page_token = None
+    cal_id = None
     while True:
         calendar_list = service.calendarList().list(pageToken=page_token).execute()
         for calendar_list_entry in calendar_list['items']:
@@ -56,8 +57,9 @@ def pick_calendar(name):
 
 
 # Pull upcoming events of a given name from Google Calendar
-def check_gcal_events(event_name, calendar_name, time_max=datetime.datetime.combine(datetime.date.today() + datetime.timedelta(365),
-                                                                     datetime.time(12, 0, 0))):
+def check_gcal_events(event_name, calendar_name,
+                      time_max=datetime.datetime.combine(datetime.date.today() + datetime.timedelta(365),
+                                                         datetime.time(12, 0, 0))):
     # Build service
     service = build('calendar', 'v3', credentials=get_gcal_creds())
 
@@ -65,7 +67,7 @@ def check_gcal_events(event_name, calendar_name, time_max=datetime.datetime.comb
     calendar_id = pick_calendar(calendar_name)
 
     # Get upcoming Google Calendar events
-    now = datetime.datetime.utcnow().isoformat() + '-05:00'      # '-05:00' indicates EST
+    now = datetime.datetime.utcnow().isoformat() + '-05:00'  # '-05:00' indicates EST
     time_max = time_max.isoformat() + '-05:00'
     events_result = service.events().list(calendarId=calendar_id, timeMin=now, timeMax=time_max,
                                           singleEvents=True).execute()
